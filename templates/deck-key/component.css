@@ -1,29 +1,160 @@
 /*
- * deck-key component styles. STUB — implement in subagent A2.
+ * deck-key component styles — port of the Canvas prototype's look.
  *
- * Port the Canvas prototype's look into HTML/CSS, authored in `rem` (16rem key,
- * so 1rem = size/16 px — page-template sets the root font-size). NO px literals
- * except where a hairline genuinely needs it; prefer rem throughout.
+ * Authored entirely in `rem` against a 16rem key (page-template.js sets the
+ * root font-size so 1rem = size/16px; never edit layout in px). Every color
+ * is driven by the two custom properties set on `.deck-key` inline style:
+ *   --accent      hex, e.g. #22d3ee
+ *   --accent-rgb  "r,g,b", e.g. 34,211,238   (for rgba(var(--accent-rgb), a))
  *
- * Reproduce, using var(--accent) / var(--accent-rgb):
- *   .deck-key         16rem square, radius ~2rem, opaque gradient base
- *                     (#101b2a -> #08121f -> #050b13, ~top-left to bottom-right)
- *   (glow)            radial accent glow centered ~upper-middle, rgba(--accent-rgb)
- *                     fading 0.22 -> 0.085 -> 0 (use ::before/::after)
- *   (frame)           ~0.26rem accent stroke, rounded, inset a hair from the edge
- *   (inner highlight) faint 1px-ish rgba(255,255,255,0.035) inner line
- *   .deck-key__dot    small accent dot, top-left (~1.2rem in)
- *   .deck-key--nav .deck-key__nav   accent rounded badge top-right with a dark
- *                     chevron ">"; hidden when the key is not nav
- *   .deck-key__icon   central glyph slot, ~7rem box, glyph fills white
- *                     (#f4f7fb) via `color`, with a soft drop-shadow + faint
- *                     accent glow; the inline <svg> should inherit color:
- *                     set `.deck-key__icon { color:#f4f7fb }` and svg fill=currentColor
- *   .deck-key__label  bottom capsule: dark rgba(5,11,19,0.82) fill, thin accent
- *                     outline, 800-weight text (#f5f7fb), centered; shrink font a
- *                     step when the label is long (>5 chars) — use :has() or a
- *                     width-based clamp so it never overflows the capsule
+ * Layering (back to front):
+ *   1. base gradient (on .deck-key itself)
+ *   2. ::before   accent glow (radial wash, upper-middle)
+ *   3. ::after    accent frame + faint inner highlight line
+ *   4. .deck-key__dot / __nav / __icon / __label (absolutely positioned)
  *
- * The component paints an opaque surface (no transparency needed). Fonts: use a
- * system-ui / Inter / Roboto / Arial stack (no web-font fetch at render time).
+ * Label auto-fit note: true "measure this exact string and react" font
+ * sizing needs either JS or CSS attr()-typed values (not available on the
+ * Chromium build this repo's Playwright pins — attr() for non-content
+ * properties isn't supported there). A container-query self-measurement
+ * trick was prototyped and confirmed BROKEN in that Chromium: an ancestor
+ * cannot shrink-to-fit around a descendant that itself establishes
+ * inline-size containment (the descendant reports zero intrinsic size
+ * upward). So instead: the capsule shrink-wraps its text up to a fixed
+ * max-width (comfortably covers every real fleet label — longest today is
+ * 7 chars: SUSPEND/GRAFANA/SPOTIFY), and `text-overflow: ellipsis` is the
+ * hard guarantee against overflow for anything longer in the future.
  */
+
+.deck-key {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16rem;
+  height: 16rem;
+  overflow: hidden;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, #101b2a 0%, #08121f 55%, #050b13 100%);
+  font-family: system-ui, Inter, Roboto, Arial, sans-serif;
+}
+
+/* Accent glow: soft radial wash centered upper-middle, fading to nothing. */
+.deck-key::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    circle at 50% 34%,
+    rgba(var(--accent-rgb), 0.22) 0%,
+    rgba(var(--accent-rgb), 0.085) 42%,
+    rgba(var(--accent-rgb), 0) 72%
+  );
+  pointer-events: none;
+}
+
+/* Accent frame, inset a hair from the outer edge, with a faint inner
+   highlight line sitting just inside the stroke. */
+.deck-key::after {
+  content: "";
+  position: absolute;
+  inset: 0.14rem;
+  z-index: 1;
+  border-radius: 1.86rem;
+  border: 0.26rem solid var(--accent);
+  box-shadow: inset 0 0 0 0.06rem rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+}
+
+.deck-key__dot {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.2rem;
+  z-index: 2;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0.45rem rgba(var(--accent-rgb), 0.65);
+}
+
+.deck-key__nav {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  background: var(--accent);
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.35);
+}
+
+.deck-key--nav .deck-key__nav {
+  display: flex;
+}
+
+/* Dark ">" chevron: a rotated corner of a small square. */
+.deck-key__nav::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: -0.14rem;
+  border-right: 0.17rem solid #0b1420;
+  border-bottom: 0.17rem solid #0b1420;
+  transform: rotate(-45deg);
+}
+
+.deck-key__icon {
+  position: absolute;
+  top: 2.6rem;
+  left: 50%;
+  z-index: 2;
+  width: 7rem;
+  height: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  color: #f4f7fb;
+  filter: drop-shadow(0 0.3rem 0.55rem rgba(0, 0, 0, 0.45))
+    drop-shadow(0 0 0.65rem rgba(var(--accent-rgb), 0.4));
+}
+
+.deck-key__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.deck-key__label {
+  position: absolute;
+  bottom: 1.15rem;
+  left: 50%;
+  z-index: 3;
+  transform: translateX(-50%);
+  width: fit-content;
+  max-width: 12.8rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999rem;
+  background: rgba(5, 11, 19, 0.82);
+  box-shadow: inset 0 0 0 0.09rem var(--accent);
+}
+
+.deck-key__label-text {
+  display: block;
+  overflow: hidden;
+  max-width: 100%;
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  color: #f5f7fb;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
