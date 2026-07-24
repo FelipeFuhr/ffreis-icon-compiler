@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommits"],
+  "labels": ["dependencies"],
+  "schedule": ["before 6am on monday"],
+  "packageRules": [
+    {
+      "description": "Group glyph packages so icon-set bumps land together",
+      "matchPackageNames": ["@fortawesome/free-solid-svg-icons", "simple-icons"],
+      "groupName": "glyph packages"
+    }
+  ]
+}

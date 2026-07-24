@@ -1,0 +1,32 @@
+{
+  "name": "ffreis-icon-compiler",
+  "version": "0.1.0",
+  "description": "Config-driven icon compiler: an HTML/CSS component shell with a central SVG glyph, rendered to raster PNG at a configurable size via headless Chromium. First consumer: the Fifine AmpliGame D6 stream deck.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Felipe Fuhr",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FelipeFuhr/ffreis-icon-compiler.git"
+  },
+  "bin": {
+    "icon-compiler": "src/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node src/cli.js build",
+    "validate": "node src/cli.js validate",
+    "preview": "node src/cli.js preview",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "6.7.2",
+    "ajv": "8.17.1",
+    "js-yaml": "4.1.0",
+    "playwright": "1.49.1",
+    "simple-icons": "13.21.0",
+    "svgo": "3.3.2"
+  }
+}

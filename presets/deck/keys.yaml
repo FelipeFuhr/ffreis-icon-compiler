@@ -1,0 +1,61 @@
+# Deck preset key definitions. One entry per unique icon the Fifine D6 deck.yaml
+# references (by output stem `id` -> <id>.png). Derived from the live
+# ffreis-opendeck-config/deck.yaml key inventory.
+#
+#   glyph.source: fontawesome (FA Solid) | simpleicons (brand) | ai (bespoke svg)
+#   accent:       a key in theme.palette
+#   nav: true     draws the page-navigation badge (hub<->page keys)
+#
+# The bespoke `ai` names must have a matching presets/deck/glyphs/ai/<name>.svg.
+keys:
+  # ── standard actions (Font Awesome Solid) ──────────────────────────────
+  - { id: mic, label: MIC, accent: cyan, glyph: { source: fontawesome, name: microphone } }
+  - { id: play-pause, label: PLAY, accent: amber, glyph: { source: fontawesome, name: play } }
+  - { id: code, label: CODE, accent: violet, glyph: { source: fontawesome, name: code } }
+  - { id: term, label: TERM, accent: violet, glyph: { source: fontawesome, name: terminal } }
+  - { id: ssh, label: SSH, accent: green, glyph: { source: fontawesome, name: server } }
+  - { id: lock, label: LOCK, accent: red, glyph: { source: fontawesome, name: lock } }
+  - { id: shot, label: SHOT, accent: red, glyph: { source: fontawesome, name: crop } }
+  - { id: devlink, label: LINKS, accent: green, glyph: { source: fontawesome, name: link } }
+  - { id: prs, label: PRS, accent: violet, glyph: { source: fontawesome, name: code-pull-request } }
+  - { id: previous, label: PREV, accent: amber, glyph: { source: fontawesome, name: backward-step } }
+  - { id: next, label: NEXT, accent: amber, glyph: { source: fontawesome, name: forward-step } }
+  - { id: volume-down, label: "VOL-", accent: amber, glyph: { source: fontawesome, name: volume-low } }
+  - { id: volume-up, label: "VOL+", accent: amber, glyph: { source: fontawesome, name: volume-high } }
+  - { id: spk, label: SPK, accent: cyan, glyph: { source: fontawesome, name: volume-xmark } }
+  - { id: phones, label: PHONES, accent: cyan, glyph: { source: fontawesome, name: headphones } }
+  - { id: spkrs, label: SPKRS, accent: cyan, glyph: { source: fontawesome, name: volume-high } }
+  - { id: dnd, label: DND, accent: red, glyph: { source: fontawesome, name: bell-slash } }
+  - { id: theme, label: THEME, accent: violet, glyph: { source: fontawesome, name: circle-half-stroke } }
+  - { id: files, label: FILES, accent: amber, glyph: { source: fontawesome, name: folder } }
+  - { id: screen, label: SCREEN, accent: cyan, glyph: { source: fontawesome, name: power-off } }
+  - { id: night, label: NIGHT, accent: violet, glyph: { source: fontawesome, name: moon } }
+  - { id: suspend, label: SUSPEND, accent: red, glyph: { source: fontawesome, name: power-off } }
+
+  # ── page navigation (Font Awesome + nav badge) ─────────────────────────
+  - { id: page-dev, label: DEV, accent: violet, nav: true, glyph: { source: fontawesome, name: code } }
+  - { id: page-lab, label: LAB, accent: green, nav: true, glyph: { source: fontawesome, name: flask } }
+  - { id: page-media, label: MEDIA, accent: amber, nav: true, glyph: { source: fontawesome, name: music } }
+  - { id: page-system, label: SYS, accent: red, nav: true, glyph: { source: fontawesome, name: gears } }
+  - { id: home, label: HOME, accent: cyan, nav: true, glyph: { source: fontawesome, name: house } }
+
+  # ── brand marks (Simple Icons) ─────────────────────────────────────────
+  - { id: claude, label: CLAUDE, accent: violet, glyph: { source: simpleicons, name: claude } }
+  - { id: github-notifications, label: GITHUB, accent: violet, glyph: { source: simpleicons, name: github } }
+  - { id: k3s, label: K3S, accent: green, glyph: { source: simpleicons, name: k3s } }
+  - { id: grafana, label: GRAFANA, accent: amber, glyph: { source: simpleicons, name: grafana } }
+  - { id: aws-cost, label: AWS, accent: amber, glyph: { source: simpleicons, name: amazonwebservices } }
+  - { id: spotify, label: SPOTIFY, accent: green, glyph: { source: simpleicons, name: spotify } }
+
+  # ── bespoke monochrome pictograms (ai/*.svg) ───────────────────────────
+  - { id: meet, label: MEET, accent: cyan, glyph: { source: ai, name: meet } }
+  - { id: pulse, label: PULSE, accent: violet, glyph: { source: ai, name: pulse } }
+  - { id: reaper, label: REAP, accent: violet, glyph: { source: ai, name: reaper } }
+  - { id: note, label: NOTE, accent: amber, glyph: { source: ai, name: note } }
+  - { id: pomo, label: POMO, accent: red, glyph: { source: ai, name: pomo } }
+  - { id: vpn-fix, label: VPN, accent: green, glyph: { source: ai, name: vpn-fix } }
+  - { id: smoke, label: SMOKE, accent: red, glyph: { source: ai, name: smoke } }
+  - { id: prune, label: PRUNE, accent: red, glyph: { source: ai, name: prune } }
+  - { id: guard, label: GUARD, accent: green, glyph: { source: ai, name: guard } }
+  - { id: k9s, label: K9S, accent: green, glyph: { source: ai, name: k9s } }
+  - { id: output, label: OUTPUT, accent: cyan, glyph: { source: ai, name: output } }

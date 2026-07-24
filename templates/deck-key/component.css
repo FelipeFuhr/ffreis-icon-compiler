@@ -1,0 +1,29 @@
+/*
+ * deck-key component styles. STUB — implement in subagent A2.
+ *
+ * Port the Canvas prototype's look into HTML/CSS, authored in `rem` (16rem key,
+ * so 1rem = size/16 px — page-template sets the root font-size). NO px literals
+ * except where a hairline genuinely needs it; prefer rem throughout.
+ *
+ * Reproduce, using var(--accent) / var(--accent-rgb):
+ *   .deck-key         16rem square, radius ~2rem, opaque gradient base
+ *                     (#101b2a -> #08121f -> #050b13, ~top-left to bottom-right)
+ *   (glow)            radial accent glow centered ~upper-middle, rgba(--accent-rgb)
+ *                     fading 0.22 -> 0.085 -> 0 (use ::before/::after)
+ *   (frame)           ~0.26rem accent stroke, rounded, inset a hair from the edge
+ *   (inner highlight) faint 1px-ish rgba(255,255,255,0.035) inner line
+ *   .deck-key__dot    small accent dot, top-left (~1.2rem in)
+ *   .deck-key--nav .deck-key__nav   accent rounded badge top-right with a dark
+ *                     chevron ">"; hidden when the key is not nav
+ *   .deck-key__icon   central glyph slot, ~7rem box, glyph fills white
+ *                     (#f4f7fb) via `color`, with a soft drop-shadow + faint
+ *                     accent glow; the inline <svg> should inherit color:
+ *                     set `.deck-key__icon { color:#f4f7fb }` and svg fill=currentColor
+ *   .deck-key__label  bottom capsule: dark rgba(5,11,19,0.82) fill, thin accent
+ *                     outline, 800-weight text (#f5f7fb), centered; shrink font a
+ *                     step when the label is long (>5 chars) — use :has() or a
+ *                     width-based clamp so it never overflows the capsule
+ *
+ * The component paints an opaque surface (no transparency needed). Fonts: use a
+ * system-ui / Inter / Roboto / Arial stack (no web-font fetch at render time).
+ */

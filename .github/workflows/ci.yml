@@ -1,0 +1,33 @@
+name: ci
+
+# Draft-gated: draft PRs run ~no CI; full CI fires on ready_for_review + push.
+# NOTE: actions are tag-pinned below; SHA-pin them when GitHub Actions billing
+# is restored (fleet standard — see workspace AGENTS.md "OPERATING MODE").
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4 # TODO SHA-pin when billing resumes
+      - uses: actions/setup-node@v4 # TODO SHA-pin when billing resumes
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test

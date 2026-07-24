@@ -1,0 +1,14 @@
+# Local commit gate. Kept dependency-free (uses node's built-in --check / --test)
+# so it runs without an install. Follow-up: adopt the fleet standards `remotes:`
+# block once a Node target set exists upstream in ffreis-platform-standards.
+pre-commit:
+  parallel: true
+  commands:
+    syntax-check:
+      glob: "*.{js,mjs,cjs}"
+      run: 'for f in {staged_files}; do node --check "$f" || exit 1; done'
+
+pre-push:
+  commands:
+    test:
+      run: node --test
