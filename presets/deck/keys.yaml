@@ -30,7 +30,7 @@ keys:
   - { id: files, label: FILES, accent: amber, glyph: { source: fontawesome, name: folder } }
   - { id: screen, label: SCREEN, accent: cyan, glyph: { source: fontawesome, name: power-off } }
   - { id: night, label: NIGHT, accent: violet, glyph: { source: fontawesome, name: moon } }
-  - { id: suspend, label: SUSPEND, accent: red, glyph: { source: fontawesome, name: bed } }
+  - { id: suspend, label: SLEEP, accent: red, glyph: { source: fontawesome, name: bed } }
 
   # ── page navigation (Font Awesome + nav badge) ─────────────────────────
   - { id: page-dev, label: DEV, accent: violet, nav: true, glyph: { source: fontawesome, name: code } }
