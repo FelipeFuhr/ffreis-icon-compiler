@@ -31,6 +31,7 @@ keys:
   - { id: screen, label: SCREEN, accent: cyan, glyph: { source: fontawesome, name: power-off } }
   - { id: night, label: NIGHT, accent: violet, glyph: { source: fontawesome, name: moon } }
   - { id: suspend, label: SLEEP, accent: red, glyph: { source: fontawesome, name: bed } }
+  - { id: sys-resources, label: STATS, accent: green, glyph: { source: fontawesome, name: microchip } }
 
   # ── page navigation (Font Awesome + nav badge) ─────────────────────────
   - { id: page-dev, label: DEV, accent: violet, nav: true, glyph: { source: fontawesome, name: code } }
