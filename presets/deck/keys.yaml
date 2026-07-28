@@ -40,6 +40,24 @@ keys:
   - { id: page-system, label: SYS, accent: red, nav: true, glyph: { source: fontawesome, name: gears } }
   - { id: home, label: HOME, accent: cyan, nav: true, glyph: { source: fontawesome, name: house } }
 
+  # ── workspace picker (Claude key -> transient section) ─────────────────
+  # One key per logical workspace in ffreis-workspace-manager/workspace/registry.yaml,
+  # in registry order. The picker paginates 8 items per page across the D6's
+  # keys 0-7, so accents are assigned to keep every horizontally- AND
+  # vertically-adjacent pair distinct (page 1 rows: 0-4 / 5-7; page 2: 0-3).
+  - { id: ws-root, label: ROOT, accent: violet, glyph: { source: fontawesome, name: folder-tree } }
+  - { id: ws-website, label: WEB, accent: cyan, glyph: { source: fontawesome, name: globe } }
+  - { id: ws-petlook, label: PETLOOK, accent: red, glyph: { source: fontawesome, name: paw } }
+  - { id: ws-platform, label: PLATFORM, accent: violet, glyph: { source: fontawesome, name: layer-group } }
+  - { id: ws-shared, label: SHARED, accent: green, glyph: { source: fontawesome, name: share-nodes } }
+  - { id: ws-ml, label: ML, accent: cyan, glyph: { source: fontawesome, name: brain } }
+  - { id: ws-stock, label: STOCK, accent: green, glyph: { source: fontawesome, name: chart-line } }
+  - { id: ws-content, label: CONTENT, accent: amber, glyph: { source: fontawesome, name: feather } }
+  - { id: ws-entitlements, label: ENTITLE, accent: red, glyph: { source: fontawesome, name: key } }
+  - { id: ws-desk, label: DESK, accent: violet, glyph: { source: fontawesome, name: sliders } }
+  - { id: ws-foundry, label: FOUNDRY, accent: amber, glyph: { source: fontawesome, name: hammer } }
+  - { id: ws-games, label: GAMES, accent: cyan, glyph: { source: fontawesome, name: gamepad } }
+
   # ── brand marks (Simple Icons) ─────────────────────────────────────────
   - { id: claude, label: CLAUDE, accent: violet, glyph: { source: simpleicons, name: claude } }
   - { id: github-notifications, label: GITHUB, accent: violet, glyph: { source: simpleicons, name: github } }
