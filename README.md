@@ -22,10 +22,41 @@ into a responsive web page later. Glyphs come from pinned icon packages
 ```
 src/            compiler engine (CLI, config, glyph resolver, Playwright renderer)
 templates/      component templates (deck-key: frame/glow/label, central glyph slot)
-presets/        consumer data — deck/{keys.yaml, theme.yaml, glyphs/ai/*.svg}
+presets/        consumer data — deck/{keys.yaml, theme.yaml, derived.json, glyphs/ai/*.svg}
+scripts/        preset generators (sync-deck-derived.js)
 dist/           build output (git-ignored; committed copy lives in the consumer repo)
 test/           schema + golden-render tests
 ```
+
+## Derived preset values (`derived.json`)
+
+A preset may ship a **generated** `derived.json` beside `theme.yaml`/`keys.yaml`
+carrying values it does not own — palette entries and per-key accents whose
+source of truth lives outside this repo:
+
+```json
+{ "palette": { "sky": { "hex": "#89dceb", "rgb": "137,220,235" } },
+  "accents": { "ws-website": "sky" } }
+```
+
+A key that omits `accent` takes it from `accents[key.id]`; palette entries merge
+**over** the compiler defaults and **under** the preset's own `theme.yaml`. A key
+with no accent from either source is a hard error — an unset accent would render
+an unset CSS var, i.e. a wrong-coloured icon that ships without failing anything.
+The file is optional: a preset that owns all of its values omits it.
+
+The deck preset uses this for its `ws-*` workspace keys, whose accent name and
+hex are both assigned by `ffreis-workspace-manager`:
+
+```bash
+npm run sync:deck          # regenerate presets/deck/derived.json from the registry
+npm run sync:deck:check    # exit 1 if the committed copy is stale
+```
+
+The build always reads the **committed** snapshot, never the registry, so the
+same commit renders the same icons everywhere — including in this public repo's
+CI, where the private registry simply isn't there. Only the staleness check needs
+it, and it skips when absent.
 
 ## Usage
 

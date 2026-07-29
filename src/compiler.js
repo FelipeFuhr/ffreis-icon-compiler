@@ -2,10 +2,13 @@
 //
 // Contract:
 //   compile({ presetDir, size, outDir, only, templateDir }) -> Promise<{ written: string[] }>
-//     1. Load presetDir/theme.yaml + keys.yaml (js-yaml).
-//     2. Merge theme with defaults (withDefaults); apply `size` override if given.
+//     1. Load presetDir/theme.yaml + keys.yaml (js-yaml) + the optional generated
+//        presetDir/derived.json overlay (config/derived.js).
+//     2. Merge theme with defaults + the overlay palette (withDefaults); apply
+//        `size` override if given.
 //     3. Validate: validateTheme / validateKeys — throw readable errors on invalid.
-//        Assert every key.accent exists in theme.palette and every key.id is unique.
+//        Resolve each key's accent (own, else overlay); assert it exists in
+//        theme.palette and that every key.id is unique.
 //     4. createResolver({ glyphsDir: presetDir/glyphs/ai }).
 //     5. Load templates/deck-key/component.{html,css} once.
 //     6. createRenderer(); per key (optionally filtered by `only`): resolve glyph ->
@@ -20,6 +23,7 @@ import { dirname, join, basename } from 'node:path';
 import yaml from 'js-yaml';
 import { validateTheme, validateKeys } from './config/schema.js';
 import { withDefaults } from './config/defaults.js';
+import { loadDerived, withResolvedAccents } from './config/derived.js';
 import { createResolver } from './glyphs/resolver.js';
 import { buildPageHtml } from './render/page-template.js';
 import { createRenderer } from './render/renderer.js';
@@ -38,8 +42,9 @@ function formatErrors(kind, errors) {
 function prepare({ presetDir = DEFAULT_PRESET_DIR, size, templateDir = DEFAULT_TEMPLATE_DIR } = {}) {
   const rawTheme = yaml.load(readFileSync(join(presetDir, 'theme.yaml'), 'utf8')) ?? {};
   const rawKeys = yaml.load(readFileSync(join(presetDir, 'keys.yaml'), 'utf8')) ?? {};
+  const derived = loadDerived(presetDir);
 
-  const theme = withDefaults(rawTheme);
+  const theme = withDefaults(rawTheme, derived.palette);
   if (size !== undefined && size !== null) {
     theme.size = size;
   }
@@ -53,7 +58,8 @@ function prepare({ presetDir = DEFAULT_PRESET_DIR, size, templateDir = DEFAULT_T
     throw new Error(formatErrors('keys', keysResult.errors));
   }
 
-  const keys = rawKeys.keys;
+  // Materialize each accent from the key or the overlay — throws if neither has one.
+  const keys = withResolvedAccents(rawKeys.keys, derived);
 
   // Unique ids.
   const seen = new Set();
@@ -63,7 +69,8 @@ function prepare({ presetDir = DEFAULT_PRESET_DIR, size, templateDir = DEFAULT_T
     }
     seen.add(key.id);
   }
-  // Accents must exist in the palette.
+  // Accents must exist in the palette. An unknown one would render an unset CSS
+  // var — a wrong-coloured icon that ships without failing anything.
   for (const key of keys) {
     if (!theme.palette[key.accent]) {
       throw new Error(`key "${key.id}" uses accent "${key.accent}" not in theme.palette`);

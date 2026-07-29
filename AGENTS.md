@@ -16,8 +16,9 @@ definition {glyph:{source,name}, accent, label, badge?, nav?}
 ```
 
 The **compiler** (`src/`) is generic. A **preset** (`presets/deck/`) is data:
-`keys.yaml` (definitions) + `theme.yaml` (palette + size) + `glyphs/ai/*.svg`
-(bespoke). Website presets come later — do not bake deck assumptions into `src/`.
+`keys.yaml` (definitions) + `theme.yaml` (palette + size) + the optional generated
+`derived.json` + `glyphs/ai/*.svg` (bespoke). Website presets come later — do not
+bake deck assumptions into `src/`.
 
 ## Hard constraints
 
@@ -30,8 +31,20 @@ The **compiler** (`src/`) is generic. A **preset** (`presets/deck/`) is data:
   (fontawesome, simpleicons, ai) MUST normalize to that box + currentColor so the
   template controls color/size uniformly.
 - **Config validates before render.** `src/config/schema.js` is the contract;
-  `keys.yaml`/`theme.yaml` must pass it. Extend the schema (upstream) rather than
-  bypassing validation.
+  `keys.yaml`/`theme.yaml`/`derived.json` must pass it. Extend the schema
+  (upstream) rather than bypassing validation.
+- **Never hand-write a value the workspace registry owns.** The deck's `ws-*`
+  keys take their accent NAME (registry.yaml) and its hex (palette.json) from
+  `ffreis-workspace-manager` via the generated `presets/deck/derived.json`
+  (`npm run sync:deck`). `keys.yaml` keeps only what is this repo's: id, label,
+  glyph. Adding `accent:` back to a `ws-*` key, or re-listing a registry colour
+  in `theme.yaml`, fails a test by name — those two lists diverged (11 of 12)
+  the first time they both existed.
+- **The build reads the committed snapshot, never the registry.** This repo is
+  public and standalone; the private fleet is absent in CI and in other clones.
+  Reading it when present would make the same commit render different icons on
+  different machines — silently, and visually. Only the staleness check touches
+  the fleet, and it skips (with a reason) when it isn't there.
 
 ## The contract (owned by the skeleton — build against these)
 
@@ -56,6 +69,10 @@ The **compiler** (`src/`) is generic. A **preset** (`presets/deck/`) is data:
   `// scan-fix(tool:rule): what — why` marker.
 
 ## Follow-ups (tracked, not blockers)
+
+- `ws-tooling` + `ws-dashboard` icons are new here (both workspaces were added
+  upstream on 2026-07-29). The deck's own config still has to reference them
+  before they appear in the workspace picker — this repo only renders the PNGs.
 
 - Add a `node-package` archetype to `ffreis-project-templates` (this repo was
   hand-scaffolded — no Copier template existed) and backfill `.copier-answers.yaml`.

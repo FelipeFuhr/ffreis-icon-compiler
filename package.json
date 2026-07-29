@@ -19,6 +19,8 @@
     "build": "node src/cli.js build",
     "validate": "node src/cli.js validate",
     "preview": "node src/cli.js preview",
+    "sync:deck": "node scripts/sync-deck-derived.js",
+    "sync:deck:check": "node scripts/sync-deck-derived.js --check",
     "test": "node --test"
   },
   "dependencies": {

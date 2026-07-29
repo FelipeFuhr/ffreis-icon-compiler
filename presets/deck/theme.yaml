@@ -1,20 +1,15 @@
 # Deck preset theme — palette + default output size for the Fifine D6 (100x100).
+#
+# THIS FILE HOLDS ONLY THE ACCENTS THIS REPO OWNS. The workspace palette
+# (rosewater, sky, peach, blue, teal, mauve, green, yellow, red, sapphire,
+# maroon, pink, slate, lime) belongs to ffreis-workspace-manager and arrives via
+# the generated `derived.json` beside this file — re-listing any of those names
+# here would silently override the source of truth with a hand-typed hex, which
+# is exactly the drift this preset just removed. A test fails if one reappears.
+#
+# Palette precedence: compiler defaults < derived.json < this file.
 size: 100
 palette:
   amber: { hex: "#ffbd4a", rgb: "255,189,74" }
-  blue: { hex: "#89b4fa", rgb: "137,180,250" }
   cyan: { hex: "#22d3ee", rgb: "34,211,238" }
-  green: { hex: "#a6e3a1", rgb: "166,227,161" }
-  lime: { hex: "#d9f99d", rgb: "217,249,157" }
-  maroon: { hex: "#eba0ac", rgb: "235,160,172" }
-  mauve: { hex: "#cba6f7", rgb: "203,166,247" }
-  peach: { hex: "#fab387", rgb: "250,179,135" }
-  pink: { hex: "#f5c2e7", rgb: "245,194,231" }
-  red: { hex: "#f38ba8", rgb: "243,139,168" }
-  rosewater: { hex: "#f5e0dc", rgb: "245,224,220" }
-  sapphire: { hex: "#74c7ec", rgb: "116,199,236" }
-  sky: { hex: "#89dceb", rgb: "137,220,235" }
-  slate: { hex: "#a6adc8", rgb: "166,173,200" }
-  teal: { hex: "#94e2d5", rgb: "148,226,213" }
   violet: { hex: "#a876ff", rgb: "168,118,255" }
-  yellow: { hex: "#f9e2af", rgb: "249,226,175" }
