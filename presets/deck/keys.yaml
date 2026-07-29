@@ -3,7 +3,9 @@
 # ffreis-opendeck-config/deck.yaml key inventory.
 #
 #   glyph.source: fontawesome (FA Solid) | simpleicons (brand) | ai (bespoke svg)
-#   accent:       a key in theme.palette
+#   accent:       a key in the merged palette — OMIT IT on keys whose colour is
+#                 owned elsewhere (the ws-* keys), where it comes from the
+#                 generated derived.json instead. See that block below.
 #   nav: true     draws the page-navigation badge (hub<->page keys)
 #
 # The bespoke `ai` names must have a matching presets/deck/glyphs/ai/<name>.svg.
@@ -42,23 +44,32 @@ keys:
 
   # ── workspace picker (Claude key -> transient section) ─────────────────
   # One key per logical workspace in ffreis-workspace-manager/workspace/registry.yaml,
-  # in registry order. The picker paginates 8 items per page across the D6's
-  # keys 0-7, so accents are assigned to keep every horizontally- AND
-  # vertically-adjacent pair distinct (page 1 rows: 0-4 / 5-7; page 2: 0-3).
-  - { id: ws-root, label: ROOT, accent: rosewater, glyph: { source: fontawesome, name: folder-tree } }
-  - { id: ws-website, label: WEB, accent: sky, glyph: { source: fontawesome, name: globe } }
-  - { id: ws-petlook, label: PETLOOK, accent: peach, glyph: { source: fontawesome, name: paw } }
-  - { id: ws-platform, label: PLATFORM, accent: blue, glyph: { source: fontawesome, name: layer-group } }
-  - { id: ws-shared, label: SHARED, accent: teal, glyph: { source: fontawesome, name: share-nodes } }
-  - { id: ws-ml, label: ML, accent: mauve, glyph: { source: fontawesome, name: brain } }
-  - { id: ws-stock, label: STOCK, accent: green, glyph: { source: fontawesome, name: chart-line } }
-  - { id: ws-content, label: CONTENT, accent: yellow, glyph: { source: fontawesome, name: feather } }
-  - { id: ws-entitlements, label: ENTITLE, accent: red, glyph: { source: fontawesome, name: key } }
-  - { id: ws-desk, label: DESK, accent: sapphire, glyph: { source: fontawesome, name: sliders } }
-  - { id: ws-foundry, label: FOUNDRY, accent: maroon, glyph: { source: fontawesome, name: hammer } }
-  - { id: ws-games, label: GAMES, accent: pink, glyph: { source: fontawesome, name: gamepad } }
-  - { id: ws-tooling, label: TOOLING, accent: slate, glyph: { source: fontawesome, name: screwdriver-wrench } }
-  - { id: ws-dashboard, label: DASH, accent: lime, glyph: { source: fontawesome, name: gauge-high } }
+  # in registry order.
+  #
+  # NOTE THE MISSING `accent:`. It is deliberate and load-bearing: the registry
+  # assigns each workspace an accent NAME and its palette.json defines that
+  # name's hex, so this file storing either would be a second copy of somebody
+  # else's decision — and it drifted the first time it existed (11 of 12
+  # disagreed). Both now come from the generated `derived.json` beside this file
+  # (regenerate: `npm run sync:deck`), keyed by the `id` below.
+  #
+  # What IS this repo's to decide, and so stays here: the id, the 8-char label
+  # (the D6's LCD budget), and which glyph draws it. A new workspace upstream
+  # therefore still needs a new entry here — the tests say so by name.
+  - { id: ws-root, label: ROOT, glyph: { source: fontawesome, name: folder-tree } }
+  - { id: ws-website, label: WEB, glyph: { source: fontawesome, name: globe } }
+  - { id: ws-petlook, label: PETLOOK, glyph: { source: fontawesome, name: paw } }
+  - { id: ws-platform, label: PLATFORM, glyph: { source: fontawesome, name: layer-group } }
+  - { id: ws-shared, label: SHARED, glyph: { source: fontawesome, name: share-nodes } }
+  - { id: ws-ml, label: ML, glyph: { source: fontawesome, name: brain } }
+  - { id: ws-stock, label: STOCK, glyph: { source: fontawesome, name: chart-line } }
+  - { id: ws-content, label: CONTENT, glyph: { source: fontawesome, name: feather } }
+  - { id: ws-entitlements, label: ENTITLE, glyph: { source: fontawesome, name: key } }
+  - { id: ws-desk, label: DESK, glyph: { source: fontawesome, name: sliders } }
+  - { id: ws-foundry, label: FOUNDRY, glyph: { source: fontawesome, name: hammer } }
+  - { id: ws-games, label: GAMES, glyph: { source: fontawesome, name: gamepad } }
+  - { id: ws-tooling, label: TOOLING, glyph: { source: fontawesome, name: screwdriver-wrench } }
+  - { id: ws-dashboard, label: DASH, glyph: { source: fontawesome, name: gauge-high } }
 
   # ── brand marks (Simple Icons) ─────────────────────────────────────────
   - { id: claude, label: CLAUDE, accent: violet, glyph: { source: simpleicons, name: claude } }

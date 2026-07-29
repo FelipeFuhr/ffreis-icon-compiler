@@ -15,10 +15,21 @@ export const DEFAULT_THEME = {
   palette: DEFAULT_PALETTE,
 };
 
-/** Merge a preset theme over the defaults (shallow palette merge). */
-export function withDefaults(theme = {}) {
+/**
+ * Merge a preset theme over the defaults (shallow palette merge).
+ *
+ * Palette precedence, lowest to highest:
+ *   DEFAULT_PALETTE  <  derivedPalette (generated; see config/derived.js)  <  theme.yaml
+ * The preset's own theme.yaml still wins, so a preset is never *unable* to set a
+ * colour — but overriding a derived one is an explicit, greppable act rather
+ * than a hand-copy that quietly drifts from its source.
+ *
+ * @param {object} [theme]           parsed theme.yaml
+ * @param {object} [derivedPalette]  palette from the preset's derived.json overlay
+ */
+export function withDefaults(theme = {}, derivedPalette = {}) {
   return {
     size: theme.size ?? DEFAULT_THEME.size,
-    palette: { ...DEFAULT_PALETTE, ...(theme.palette ?? {}) },
+    palette: { ...DEFAULT_PALETTE, ...derivedPalette, ...(theme.palette ?? {}) },
   };
 }

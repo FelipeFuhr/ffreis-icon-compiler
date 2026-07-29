@@ -1,0 +1,78 @@
+{
+  "_generated": "GENERATED — do not edit by hand; run `npm run sync:deck`",
+  "source": "ffreis-workspace-manager/workspace/{registry.yaml,palette.json}",
+  "palette": {
+    "rosewater": {
+      "hex": "#f5e0dc",
+      "rgb": "245,224,220"
+    },
+    "peach": {
+      "hex": "#fab387",
+      "rgb": "250,179,135"
+    },
+    "yellow": {
+      "hex": "#f9e2af",
+      "rgb": "249,226,175"
+    },
+    "green": {
+      "hex": "#a6e3a1",
+      "rgb": "166,227,161"
+    },
+    "teal": {
+      "hex": "#94e2d5",
+      "rgb": "148,226,213"
+    },
+    "sky": {
+      "hex": "#89dceb",
+      "rgb": "137,220,235"
+    },
+    "sapphire": {
+      "hex": "#74c7ec",
+      "rgb": "116,199,236"
+    },
+    "blue": {
+      "hex": "#89b4fa",
+      "rgb": "137,180,250"
+    },
+    "mauve": {
+      "hex": "#cba6f7",
+      "rgb": "203,166,247"
+    },
+    "pink": {
+      "hex": "#f5c2e7",
+      "rgb": "245,194,231"
+    },
+    "red": {
+      "hex": "#f38ba8",
+      "rgb": "243,139,168"
+    },
+    "maroon": {
+      "hex": "#eba0ac",
+      "rgb": "235,160,172"
+    },
+    "slate": {
+      "hex": "#a6adc8",
+      "rgb": "166,173,200"
+    },
+    "lime": {
+      "hex": "#d9f99d",
+      "rgb": "217,249,157"
+    }
+  },
+  "accents": {
+    "ws-root": "rosewater",
+    "ws-website": "sky",
+    "ws-petlook": "peach",
+    "ws-platform": "blue",
+    "ws-shared": "teal",
+    "ws-ml": "mauve",
+    "ws-stock": "green",
+    "ws-content": "yellow",
+    "ws-entitlements": "red",
+    "ws-desk": "sapphire",
+    "ws-foundry": "maroon",
+    "ws-games": "pink",
+    "ws-tooling": "slate",
+    "ws-dashboard": "lime"
+  }
+}
