@@ -57,6 +57,8 @@ keys:
   - { id: ws-desk, label: DESK, accent: sapphire, glyph: { source: fontawesome, name: sliders } }
   - { id: ws-foundry, label: FOUNDRY, accent: maroon, glyph: { source: fontawesome, name: hammer } }
   - { id: ws-games, label: GAMES, accent: pink, glyph: { source: fontawesome, name: gamepad } }
+  - { id: ws-tooling, label: TOOLING, accent: slate, glyph: { source: fontawesome, name: screwdriver-wrench } }
+  - { id: ws-dashboard, label: DASH, accent: lime, glyph: { source: fontawesome, name: gauge-high } }
 
   # ── brand marks (Simple Icons) ─────────────────────────────────────────
   - { id: claude, label: CLAUDE, accent: violet, glyph: { source: simpleicons, name: claude } }
