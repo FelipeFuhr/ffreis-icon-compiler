@@ -7,6 +7,14 @@
 #                 owned elsewhere (the ws-* keys), where it comes from the
 #                 generated derived.json instead. See that block below.
 #   nav: true     draws the page-navigation badge (hub<->page keys)
+#   doubleBorder: true   draws a second, inset accent ring — used on the
+#                        deck.yaml `menu_rows.main` icons (the constant
+#                        Home/Dev/Lab/Studio/Screen bottom row) so they read
+#                        as a distinct navigation strip vs. regular content
+#                        buttons at a glance, independent of the `nav` badge
+#                        (which only the actual page-switch keys carry —
+#                        `screen` doesn't switch pages, so it gets the ring
+#                        without the badge).
 #
 # The bespoke `ai` names must have a matching presets/deck/glyphs/ai/<name>.svg.
 keys:
@@ -30,17 +38,17 @@ keys:
   - { id: dnd, label: DND, accent: red, glyph: { source: fontawesome, name: bell-slash } }
   - { id: theme, label: THEME, accent: violet, glyph: { source: fontawesome, name: circle-half-stroke } }
   - { id: files, label: FILES, accent: amber, glyph: { source: fontawesome, name: folder } }
-  - { id: screen, label: SCREEN, accent: cyan, glyph: { source: fontawesome, name: power-off } }
+  - { id: screen, label: SCREEN, accent: cyan, doubleBorder: true, glyph: { source: fontawesome, name: power-off } }
   - { id: night, label: NIGHT, accent: violet, glyph: { source: fontawesome, name: moon } }
   - { id: suspend, label: SLEEP, accent: red, glyph: { source: fontawesome, name: bed } }
   - { id: sys-resources, label: STATS, accent: green, glyph: { source: fontawesome, name: microchip } }
 
   # ── page navigation (Font Awesome + nav badge) ─────────────────────────
-  - { id: page-dev, label: DEV, accent: violet, nav: true, glyph: { source: fontawesome, name: code } }
-  - { id: page-lab, label: LAB, accent: green, nav: true, glyph: { source: fontawesome, name: flask } }
+  - { id: page-dev, label: DEV, accent: violet, nav: true, doubleBorder: true, glyph: { source: fontawesome, name: code } }
+  - { id: page-lab, label: LAB, accent: green, nav: true, doubleBorder: true, glyph: { source: fontawesome, name: flask } }
   - { id: page-media, label: MEDIA, accent: amber, nav: true, glyph: { source: fontawesome, name: music } }
-  - { id: page-system, label: SYS, accent: red, nav: true, glyph: { source: fontawesome, name: gears } }
-  - { id: home, label: HOME, accent: cyan, nav: true, glyph: { source: fontawesome, name: house } }
+  - { id: page-system, label: SYS, accent: red, nav: true, doubleBorder: true, glyph: { source: fontawesome, name: gears } }
+  - { id: home, label: HOME, accent: cyan, nav: true, doubleBorder: true, glyph: { source: fontawesome, name: house } }
 
   # ── workspace picker (Claude key -> transient section) ─────────────────
   # One key per logical workspace in ffreis-workspace-manager/workspace/registry.yaml,

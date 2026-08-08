@@ -66,6 +66,7 @@ export const keySchema = {
     // the merged palette — both are enforced in the compiler, which knows the merge.
     accent: { type: 'string' },
     nav: { type: 'boolean' }, // draws the page-navigation badge
+    doubleBorder: { type: 'boolean' }, // draws a second, inset accent ring
     glyph: {
       type: 'object',
       additionalProperties: false,

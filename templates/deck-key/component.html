@@ -5,6 +5,7 @@
     {{accentHex}}  hex accent, e.g. #22d3ee   (from theme.palette[accent].hex)
     {{accentRgb}}  "r,g,b" for rgba() glows    (from theme.palette[accent].rgb)
     {{navClass}}   "deck-key--nav" when def.nav is true, else ""
+    {{doubleBorderClass}} "deck-key--double-border" when def.doubleBorder is true, else ""
     {{glyphSvg}}   inline <svg viewBox="0 0 64 64" fill="currentColor">…</svg>
     {{label}}      short uppercase label text (may be empty)
 
@@ -12,9 +13,10 @@
   tokens by exact match and page-template targets these classes. Author in `rem`
   against a 16rem key. Do not switch to px.
 -->
-<div class="deck-key {{navClass}}" style="--accent: {{accentHex}}; --accent-rgb: {{accentRgb}};">
+<div class="deck-key {{navClass}} {{doubleBorderClass}}" style="--accent: {{accentHex}}; --accent-rgb: {{accentRgb}};">
   <span class="deck-key__dot" aria-hidden="true"></span>
   <span class="deck-key__nav" aria-hidden="true"></span>
+  <span class="deck-key__ring2" aria-hidden="true"></span>
   <div class="deck-key__icon">{{glyphSvg}}</div>
   <div class="deck-key__label"><span class="deck-key__label-text">{{label}}</span></div>
 </div>
