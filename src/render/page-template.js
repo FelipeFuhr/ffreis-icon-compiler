@@ -42,7 +42,7 @@ function fill(template, token, value) {
  * @param {string} args.componentHtml - templates/deck-key/component.html (token source)
  * @param {string} args.componentCss  - templates/deck-key/component.css (inlined <style>)
  * @param {string} args.glyphSvg      - inline <svg viewBox="0 0 64 64" fill="currentColor">…
- * @param {{ id: string, label?: string, accent: string, nav?: boolean }} args.def
+ * @param {{ id: string, label?: string, accent: string, nav?: boolean, doubleBorder?: boolean }} args.def
  * @param {{ palette: Record<string, { hex: string, rgb: string }> }} args.theme
  * @returns {string} standalone HTML document
  */
@@ -56,6 +56,7 @@ export function buildPageHtml({ componentHtml, componentCss, glyphSvg, def, them
   component = fill(component, 'accentHex', accent.hex);
   component = fill(component, 'accentRgb', accent.rgb);
   component = fill(component, 'navClass', def.nav ? 'deck-key--nav' : '');
+  component = fill(component, 'doubleBorderClass', def.doubleBorder ? 'deck-key--double-border' : '');
   component = fill(component, 'glyphSvg', glyphSvg); // trusted SVG — inject verbatim
   component = fill(component, 'label', escapeHtml(def.label ?? ''));
 
