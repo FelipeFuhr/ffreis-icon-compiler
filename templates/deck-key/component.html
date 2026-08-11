@@ -6,6 +6,8 @@
     {{accentRgb}}  "r,g,b" for rgba() glows    (from theme.palette[accent].rgb)
     {{navClass}}   "deck-key--nav" when def.nav is true, else ""
     {{doubleBorderClass}} "deck-key--double-border" when def.doubleBorder is true, else ""
+    {{activeClass}} "deck-key--active" for the second, `-active.png` render of a
+                   key flagged def.active — never both variants in one document
     {{glyphSvg}}   inline <svg viewBox="0 0 64 64" fill="currentColor">…</svg>
     {{label}}      short uppercase label text (may be empty)
 
@@ -13,7 +15,7 @@
   tokens by exact match and page-template targets these classes. Author in `rem`
   against a 16rem key. Do not switch to px.
 -->
-<div class="deck-key {{navClass}} {{doubleBorderClass}}" style="--accent: {{accentHex}}; --accent-rgb: {{accentRgb}};">
+<div class="deck-key {{navClass}} {{doubleBorderClass}} {{activeClass}}" style="--accent: {{accentHex}}; --accent-rgb: {{accentRgb}};">
   <span class="deck-key__dot" aria-hidden="true"></span>
   <span class="deck-key__nav" aria-hidden="true"></span>
   <span class="deck-key__ring2" aria-hidden="true"></span>

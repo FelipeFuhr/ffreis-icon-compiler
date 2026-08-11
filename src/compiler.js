@@ -91,7 +91,13 @@ function filterKeys(keys, only) {
   return keys.filter((k) => wanted.has(k.id));
 }
 
-/** Render each selected key to a PNG buffer, reusing a single browser. */
+/**
+ * Render each selected key to a PNG buffer, reusing a single browser. A key
+ * flagged `active: true` renders TWICE — its normal look plus a second pass with
+ * `activeVariant: true`, written under the sibling id `<id>-active` — so callers
+ * (and `compile()`'s writer, keyed purely off each result's `id`) never need to
+ * know about the active-variant convention themselves.
+ */
 async function renderList(prepared, only) {
   const { theme, resolve, componentHtml, componentCss } = prepared;
   const keys = filterKeys(prepared.keys, only);
@@ -103,6 +109,23 @@ async function renderList(prepared, only) {
       const html = buildPageHtml({ componentHtml, componentCss, glyphSvg, def, theme });
       const png = await renderer.renderToPng({ html, size: theme.size, selector: '.deck-key' });
       results.push({ id: def.id, png });
+
+      if (def.active) {
+        const activeHtml = buildPageHtml({
+          componentHtml,
+          componentCss,
+          glyphSvg,
+          def,
+          theme,
+          activeVariant: true,
+        });
+        const activePng = await renderer.renderToPng({
+          html: activeHtml,
+          size: theme.size,
+          selector: '.deck-key',
+        });
+        results.push({ id: `${def.id}-active`, png: activePng });
+      }
     }
     return results;
   } finally {

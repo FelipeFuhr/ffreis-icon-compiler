@@ -67,6 +67,9 @@ export const keySchema = {
     accent: { type: 'string' },
     nav: { type: 'boolean' }, // draws the page-navigation badge
     doubleBorder: { type: 'boolean' }, // draws a second, inset accent ring
+    active: { type: 'boolean' }, // also renders a same-id `-active.png`: solid
+    // accent fill + dark ink foreground (border/dot/nav-badge/icon), for a
+    // "you are here" selected state a page can swap in for its own nav key
     glyph: {
       type: 'object',
       additionalProperties: false,

@@ -180,3 +180,64 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* Active/"you are here" state — opt-in via `active: true`, rendered as a SEPARATE
+ * `<id>-active.png` (compiler.js renders each flagged key twice); never toggled at
+ * runtime, since deck rendering is fully static (icon path picked once from
+ * config). A page composing a shared menu row can override just its own key with
+ * this variant so the current page's own nav icon reads as selected.
+ *
+ * Negative/inverted look: solid accent fill instead of the dark gradient, with
+ * every foreground element (ring, dot, nav badge, icon) flipped to the same dark
+ * ink already used elsewhere in this file (#0b1420, the nav chevron's cutout
+ * color) instead of staying accent-colored — accent-on-accent would vanish
+ * entirely. This also fixes a contrast trap a plain "keep the icon white" version
+ * would have hit: the `green`/`red` accents in this preset's palette are pastel
+ * (#a6e3a1 / #f38ba8), so a white icon on top would wash out; dark ink reads
+ * clearly against every accent in the palette, saturated or pastel alike.
+ *
+ * Rule order matters here: the bare pseudo-element overrides below
+ * (`.deck-key--active::before/::after`) match their un-suffixed base rules at
+ * EQUAL specificity (one class + one pseudo-element each), so they only win by
+ * being declared LATER in this file. The descendant-selector overrides
+ * (`.deck-key--active .deck-key__dot` etc.) win on specificity alone and would
+ * be safe in any order, but are kept down here too for one obvious place to look.
+ */
+.deck-key--active {
+  background: var(--accent);
+}
+
+.deck-key--active::before {
+  /* The radial accent-glow wash existed to tint the dark background; redundant
+     (and slightly muddying) once the background IS the accent, flat. */
+  content: none;
+}
+
+.deck-key--active::after {
+  border-color: #0b1420;
+  box-shadow: none;
+}
+
+.deck-key--active .deck-key__ring2 {
+  border-color: #0b1420;
+}
+
+.deck-key--active .deck-key__dot {
+  background: #0b1420;
+  box-shadow: 0 0 0.45rem rgba(0, 0, 0, 0.35);
+}
+
+.deck-key--active .deck-key__nav {
+  background: #0b1420;
+}
+
+.deck-key--active .deck-key__nav::before {
+  /* Chevron cutout flips from dark-on-accent to accent-on-dark, matching the
+     badge background swap immediately above. */
+  border-color: var(--accent);
+}
+
+.deck-key--active .deck-key__icon {
+  color: #0b1420;
+  filter: drop-shadow(0 0.3rem 0.4rem rgba(0, 0, 0, 0.3));
+}

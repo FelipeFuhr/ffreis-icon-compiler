@@ -42,11 +42,14 @@ function fill(template, token, value) {
  * @param {string} args.componentHtml - templates/deck-key/component.html (token source)
  * @param {string} args.componentCss  - templates/deck-key/component.css (inlined <style>)
  * @param {string} args.glyphSvg      - inline <svg viewBox="0 0 64 64" fill="currentColor">…
- * @param {{ id: string, label?: string, accent: string, nav?: boolean, doubleBorder?: boolean }} args.def
+ * @param {{ id: string, label?: string, accent: string, nav?: boolean, doubleBorder?: boolean, active?: boolean }} args.def
  * @param {{ palette: Record<string, { hex: string, rgb: string }> }} args.theme
+ * @param {boolean} [args.activeVariant] - render the `-active` (selected) look for this
+ *   key regardless of `def.active` (the compiler decides WHETHER to call this a second
+ *   time per key; this flag only decides WHICH look that second call renders)
  * @returns {string} standalone HTML document
  */
-export function buildPageHtml({ componentHtml, componentCss, glyphSvg, def, theme }) {
+export function buildPageHtml({ componentHtml, componentCss, glyphSvg, def, theme, activeVariant = false }) {
   const accent = theme?.palette?.[def.accent];
   if (!accent) {
     throw new Error(`accent "${def.accent}" not found in theme.palette (key "${def.id}")`);
@@ -57,6 +60,7 @@ export function buildPageHtml({ componentHtml, componentCss, glyphSvg, def, them
   component = fill(component, 'accentRgb', accent.rgb);
   component = fill(component, 'navClass', def.nav ? 'deck-key--nav' : '');
   component = fill(component, 'doubleBorderClass', def.doubleBorder ? 'deck-key--double-border' : '');
+  component = fill(component, 'activeClass', activeVariant ? 'deck-key--active' : '');
   component = fill(component, 'glyphSvg', glyphSvg); // trusted SVG — inject verbatim
   component = fill(component, 'label', escapeHtml(def.label ?? ''));
 
