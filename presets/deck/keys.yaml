@@ -78,6 +78,8 @@ keys:
   - { id: ws-games, label: GAMES, glyph: { source: fontawesome, name: gamepad } }
   - { id: ws-tooling, label: TOOLING, glyph: { source: fontawesome, name: screwdriver-wrench } }
   - { id: ws-dashboard, label: DASH, glyph: { source: fontawesome, name: gauge-high } }
+  - { id: ws-urbs, label: URBS, glyph: { source: fontawesome, name: store } }
+  - { id: ws-commerce, label: COMMERCE, glyph: { source: fontawesome, name: cart-shopping } }
 
   # ── brand marks (Simple Icons) ─────────────────────────────────────────
   - { id: claude, label: CLAUDE, accent: violet, glyph: { source: simpleicons, name: claude } }
