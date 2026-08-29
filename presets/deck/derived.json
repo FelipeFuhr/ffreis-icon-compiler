@@ -57,6 +57,14 @@
     "lime": {
       "hex": "#d9f99d",
       "rgb": "217,249,157"
+    },
+    "indigo": {
+      "hex": "#8989f5",
+      "rgb": "137,137,245"
+    },
+    "fuchsia": {
+      "hex": "#f589f5",
+      "rgb": "245,137,245"
     }
   },
   "accents": {
@@ -73,6 +81,8 @@
     "ws-foundry": "maroon",
     "ws-games": "pink",
     "ws-tooling": "slate",
-    "ws-dashboard": "lime"
+    "ws-dashboard": "lime",
+    "ws-urbs": "indigo",
+    "ws-commerce": "fuchsia"
   }
 }
