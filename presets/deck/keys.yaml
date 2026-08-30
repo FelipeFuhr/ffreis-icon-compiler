@@ -80,6 +80,7 @@ keys:
   - { id: ws-dashboard, label: DASH, glyph: { source: fontawesome, name: gauge-high } }
   - { id: ws-urbs, label: URBS, glyph: { source: fontawesome, name: store } }
   - { id: ws-commerce, label: COMMERCE, glyph: { source: fontawesome, name: cart-shopping } }
+  - { id: ws-forma, label: FORMA, glyph: { source: fontawesome, name: shapes } }
 
   # ── brand marks (Simple Icons) ─────────────────────────────────────────
   - { id: claude, label: CLAUDE, accent: violet, glyph: { source: simpleicons, name: claude } }
