@@ -65,6 +65,10 @@
     "fuchsia": {
       "hex": "#f589f5",
       "rgb": "245,137,245"
+    },
+    "mint": {
+      "hex": "#89f5b4",
+      "rgb": "137,245,180"
     }
   },
   "accents": {
@@ -83,6 +87,7 @@
     "ws-tooling": "slate",
     "ws-dashboard": "lime",
     "ws-urbs": "indigo",
-    "ws-commerce": "fuchsia"
+    "ws-commerce": "fuchsia",
+    "ws-forma": "mint"
   }
 }
