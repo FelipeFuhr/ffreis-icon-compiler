@@ -65,6 +65,62 @@
     "fuchsia": {
       "hex": "#f589f5",
       "rgb": "245,137,245"
+    },
+    "mint": {
+      "hex": "#89f5b4",
+      "rgb": "137,245,180"
+    },
+    "emerald": {
+      "hex": "#7bf97b",
+      "rgb": "123,249,123"
+    },
+    "gold": {
+      "hex": "#f9df7b",
+      "rgb": "249,223,123"
+    },
+    "coral": {
+      "hex": "#f9887b",
+      "rgb": "249,136,123"
+    },
+    "orchid": {
+      "hex": "#f97bc3",
+      "rgb": "249,123,195"
+    },
+    "amethyst": {
+      "hex": "#ba7bf9",
+      "rgb": "186,123,249"
+    },
+    "pear": {
+      "hex": "#baf97b",
+      "rgb": "186,249,123"
+    },
+    "butter": {
+      "hex": "#f0f97b",
+      "rgb": "240,249,123"
+    },
+    "turquoise": {
+      "hex": "#7bf9da",
+      "rgb": "123,249,218"
+    },
+    "apricot": {
+      "hex": "#f9c57b",
+      "rgb": "249,197,123"
+    },
+    "jade": {
+      "hex": "#7bf99b",
+      "rgb": "123,249,155"
+    },
+    "azure": {
+      "hex": "#7b9df9",
+      "rgb": "123,157,249"
+    },
+    "rose": {
+      "hex": "#f97b8b",
+      "rgb": "249,123,139"
+    },
+    "aqua": {
+      "hex": "#7bf9f9",
+      "rgb": "123,249,249"
     }
   },
   "accents": {
@@ -83,6 +139,8 @@
     "ws-tooling": "slate",
     "ws-dashboard": "lime",
     "ws-urbs": "indigo",
-    "ws-commerce": "fuchsia"
+    "ws-commerce": "fuchsia",
+    "ws-forma": "mint",
+    "ws-media": "emerald"
   }
 }
