@@ -126,7 +126,7 @@
   "accents": {
     "ws-root": "rosewater",
     "ws-website": "sky",
-    "ws-petlook": "peach",
+    "ws-product-a": "peach",
     "ws-platform": "blue",
     "ws-shared": "teal",
     "ws-ml": "mauve",
@@ -138,9 +138,9 @@
     "ws-games": "pink",
     "ws-tooling": "slate",
     "ws-dashboard": "lime",
-    "ws-urbs": "indigo",
+    "ws-product-b": "indigo",
     "ws-commerce": "fuchsia",
-    "ws-forma": "mint",
+    "ws-product-c": "mint",
     "ws-media": "emerald"
   }
 }

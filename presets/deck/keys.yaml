@@ -66,7 +66,7 @@ keys:
   # therefore still needs a new entry here — the tests say so by name.
   - { id: ws-root, label: ROOT, glyph: { source: fontawesome, name: folder-tree } }
   - { id: ws-website, label: WEB, glyph: { source: fontawesome, name: globe } }
-  - { id: ws-petlook, label: PETLOOK, glyph: { source: fontawesome, name: paw } }
+  - { id: ws-product-a, label: PRODA, glyph: { source: fontawesome, name: paw } }
   - { id: ws-platform, label: PLATFORM, glyph: { source: fontawesome, name: layer-group } }
   - { id: ws-shared, label: SHARED, glyph: { source: fontawesome, name: share-nodes } }
   - { id: ws-ml, label: ML, glyph: { source: fontawesome, name: brain } }
@@ -78,9 +78,9 @@ keys:
   - { id: ws-games, label: GAMES, glyph: { source: fontawesome, name: gamepad } }
   - { id: ws-tooling, label: TOOLING, glyph: { source: fontawesome, name: screwdriver-wrench } }
   - { id: ws-dashboard, label: DASH, glyph: { source: fontawesome, name: gauge-high } }
-  - { id: ws-urbs, label: URBS, glyph: { source: fontawesome, name: store } }
+  - { id: ws-product-b, label: PRODB, glyph: { source: fontawesome, name: store } }
   - { id: ws-commerce, label: COMMERCE, glyph: { source: fontawesome, name: cart-shopping } }
-  - { id: ws-forma, label: FORMA, glyph: { source: fontawesome, name: shapes } }
+  - { id: ws-product-c, label: PRODC, glyph: { source: fontawesome, name: shapes } }
   - { id: ws-media, label: MEDIA, glyph: { source: fontawesome, name: photo-film } }
 
   # ── brand marks (Simple Icons) ─────────────────────────────────────────
