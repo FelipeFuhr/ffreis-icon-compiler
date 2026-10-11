@@ -58,11 +58,24 @@ function hexToRgb(hex) {
 }
 
 /**
+ * The private registry is free to name a workspace after a real product — that's
+ * its call to make. This repo is public, though, and its committed snapshot must
+ * never carry those names, so any workspace id that IS a real product name gets
+ * swapped for a public-safe placeholder before it becomes a deck key id.
+ */
+const PUBLIC_SAFE_ID = {
+  'ws-petlook': 'ws-product-a',
+  'ws-urbs': 'ws-product-b',
+  'ws-forma': 'ws-product-c',
+};
+
+/**
  * The deck key id that stands for a registry workspace. The hub has no anchor of
  * its own — it IS the picker's `root` key.
  */
 function keyIdFor(workspace, meta) {
-  return meta?.hub ? 'ws-root' : workspace;
+  if (meta?.hub) return 'ws-root';
+  return PUBLIC_SAFE_ID[workspace] ?? workspace;
 }
 
 /**
