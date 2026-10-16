@@ -24,12 +24,23 @@ export const DEFAULT_THEME = {
  * colour — but overriding a derived one is an explicit, greppable act rather
  * than a hand-copy that quietly drifts from its source.
  *
+ * There is deliberately NO default `fonts`: absent means "declared nothing",
+ * which the render reads as an opt-out of font verification (render/fonts.js).
+ * Defaulting it to a system stack here would make every preset look like it had
+ * opted out on purpose. The key is carried through only when the preset set it —
+ * themeSchema is `additionalProperties: false`, so rebuilding the object without
+ * this would silently drop a declared stack before anything could check it.
+ *
  * @param {object} [theme]           parsed theme.yaml
  * @param {object} [derivedPalette]  palette from the preset's derived.json overlay
  */
 export function withDefaults(theme = {}, derivedPalette = {}) {
-  return {
+  const merged = {
     size: theme.size ?? DEFAULT_THEME.size,
     palette: { ...DEFAULT_PALETTE, ...derivedPalette, ...(theme.palette ?? {}) },
   };
+  if (theme.fonts !== undefined) {
+    merged.fonts = theme.fonts;
+  }
+  return merged;
 }

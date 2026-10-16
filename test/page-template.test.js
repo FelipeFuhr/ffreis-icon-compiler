@@ -91,3 +91,29 @@ test('escapes HTML-special characters in the label', () => {
 test('throws a readable error when the accent is not in the palette', () => {
   assert.throws(() => build({ accent: 'chartreuse' }), /accent "chartreuse" not found/);
 });
+
+/** Build with a theme that declares `fonts` (the capability under test). */
+function buildWithFonts(fonts) {
+  return buildPageHtml({
+    componentHtml,
+    componentCss,
+    glyphSvg,
+    def: baseDef,
+    theme: { ...theme, fonts },
+  });
+}
+
+test('applies a theme-declared font stack AFTER the component so it wins the cascade', () => {
+  // Without this the declaration would assert something about a stack nothing
+  // applied: component.css sets font-family on .deck-key at the same specificity.
+  const html = buildWithFonts(['Inter', 'sans-serif']);
+  const rule = 'font-family: "Inter", sans-serif;';
+  assert.ok(html.includes(rule), 'declared font stack not emitted');
+  assert.ok(html.indexOf(rule) > html.indexOf(componentCss), 'font layer must come after componentCss');
+});
+
+test('emits no font layer at all when the theme declares no fonts', () => {
+  const html = buildWithFonts(undefined);
+  assert.equal(html.includes('font-family: "'), false, 'a font layer leaked without a declaration');
+  assert.equal(html.match(/<style>/g).length, 2, 'expected only the base + component stylesheets');
+});

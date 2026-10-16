@@ -29,7 +29,24 @@ bake deck assumptions into `src/`.
   root font-size / Playwright `deviceScaleFactor` — never by editing layout.
 - **Glyphs are `viewBox="0 0 64 64"`, `fill="currentColor"`.** Every adapter
   (fontawesome, simpleicons, ai) MUST normalize to that box + currentColor so the
-  template controls color/size uniformly.
+  template controls color/size uniformly. For `ai` this is now **enforced, not
+  described**: a missing root `fill` is supplied, and a hardcoded `fill`/`stroke`
+  colour (attribute or inline `style`) is a hard error rather than a silent
+  rewrite. Paint with `currentColor`, or `none` + a `currentColor` stroke.
+- **Never commit a font binary.** The fleet `hygiene-binary-files` hook rejects
+  every binary MIME with no allowlist. A theme declaring a family it has no
+  `@font-face` for fails the render by design (see below) — the fix is to drop
+  the declaration, not to smuggle in a typeface.
+- **A declared font is verified; an undeclared one is a declared exception.**
+  `theme.fonts` is optional. Declaring a non-system family makes the render
+  assert that family actually resolved in Chromium, read off the page's
+  `FontFaceSet` — never `document.fonts.check()`, which returns `true` for a
+  family the browser has never heard of (a fallback can render it), so a guard
+  built on it never fires. Declaring nothing, or only `system-ui`/`sans-serif`/
+  `-apple-system`/`ui-*`, skips the check on purpose. `withDefaults()` must keep
+  carrying `fonts` through the merge: `themeSchema` is
+  `additionalProperties: false`, so dropping the key there disarms the whole
+  guard silently (there is a test for exactly that).
 - **Config validates before render.** `src/config/schema.js` is the contract;
   `keys.yaml`/`theme.yaml`/`derived.json` must pass it. Extend the schema
   (upstream) rather than bypassing validation.
@@ -45,6 +62,24 @@ bake deck assumptions into `src/`.
   Reading it when present would make the same commit render different icons on
   different machines — silently, and visually. Only the staleness check touches
   the fleet, and it skips (with a reason) when it isn't there.
+
+- **Output geometry is asserted, not assumed.** `deviceScaleFactor` is
+  fractional at the production size (100/256 = 0.390625) over a 16rem box with
+  sub-pixel CSS geometry, and the deck consumes a fixed-geometry key, so a
+  rounding change would ship silently. `test/compile.test.js` reads width/height
+  out of the written PNG's own IHDR and asserts `size x size`. Keep that assert.
+
+## Declared variation (`flags/flags.json`)
+
+`flags/flags.json` declares the points of deliberate variation this repo gates:
+`font-integrity`, `output-dimensions` and `output-gate-exists` are enforcing and
+each names the real seam that enforces it; `contrast-aa` is declared **off** with
+a reasoned exception, because nothing here computes a contrast ratio and accents
+arrive from an external snapshot with no legibility floor. A flag naming a gate
+that does not exist is the exact failure the file prevents — add one only with
+the seam already in place. The registry schema lives upstream in
+`ffreis-platform-standards`; do **not** inline a private copy of its validator
+here.
 
 ## The contract (owned by the skeleton — build against these)
 

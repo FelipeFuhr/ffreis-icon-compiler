@@ -1,0 +1,68 @@
+{
+  "$schema": "https://raw.githubusercontent.com/FelipeFuhr/ffreis-platform-standards/main/flags/flag-registry.schema.json",
+  "version": 1,
+  "project": "ffreis-icon-compiler",
+  "flags": [
+    {
+      "name": "font_integrity",
+      "kind": "gate",
+      "category": "quality",
+      "binding": "compile",
+      "effect": "toggle",
+      "default": "error",
+      "rule": "font-integrity",
+      "output_target": "raster-export",
+      "seam": "src/render/renderer.js:assertDeclaredFontsResolved -> src/render/fonts.js:unresolvedFamilies; locked by test/compile.test.js \"compile() fails the render when a declared font family did not resolve\" and the matcher cases in test/fonts.test.js",
+      "exceptions": [
+        {
+          "scope": "a theme whose `fonts` declares only CSS generic / system-stack keywords (system-ui, sans-serif, -apple-system, ui-*), and a theme that declares no `fonts` at all — presets/deck/theme.yaml today",
+          "reason": "A family with no webfont behind it was chosen deliberately: a generic keyword resolves to whatever the host installed, so there is no face to verify and nothing the repo could ship to make it verifiable. The rule targets the opposite case — a theme that named a concrete family and had it silently fail to load, leaving the label rasterized in a fallback.",
+          "added": "2026-10-16"
+        }
+      ],
+      "description": "Label typography must be what the theme declared. The render awaits document.fonts.ready, then fails when a declared non-system family has no FontFace entry at status \"loaded\". Built on the FontFaceSet's entries, NOT document.fonts.check(): check() answers \"can this text be rendered\" and returns true for a family the browser has never heard of, because a fallback can render it — measured in this repo's pinned Chromium 131, check('1em ThisFamilyDoesNotExistAnywhere') is true on a page whose FontFaceSet is empty, so a guard built on it never fires. Before this flag the component's stack named Inter and Roboto with no @font-face and no font file in the tree, so the same commit rendered different label pixels on any host that happened to have them — the colour failure mode the compiler already crashes over, in the typography path."
+    },
+    {
+      "name": "output_dimensions",
+      "kind": "gate",
+      "category": "quality",
+      "binding": "compile",
+      "effect": "toggle",
+      "default": "error",
+      "rule": "output-dimensions",
+      "output_target": "raster-export",
+      "seam": "test/compile.test.js \"compile() writes a PNG of exactly size x size at several sizes\" — reads width/height from the written PNG's own IHDR (bytes 16-23, big-endian uint32) at sizes 64 and 100",
+      "description": "A written icon must be exactly size x size device px. Fragile by construction: deviceScaleFactor is fractional at the production size (100/256 = 0.390625) over a 16rem element box with sub-pixel CSS geometry, and the consumer decodes a fixed-geometry key — so a rounding change in Chromium or in the renderer's scale arithmetic would ship a mis-sized icon with nothing failing. Proven to fire: perturbing the scale factor by one output px fails this test while the pre-existing magic-byte test stays green."
+    },
+    {
+      "name": "output_gate_exists",
+      "kind": "gate",
+      "category": "quality",
+      "binding": "compile",
+      "effect": "toggle",
+      "default": "error",
+      "rule": "output-gate-exists",
+      "output_target": "raster-export",
+      "seam": "test/compile.test.js:pngSize — the IHDR dimension assertion in \"compile() writes a PNG of exactly size x size at several sizes\", plus the PNG signature and IHDR-chunk checks it makes on the written file",
+      "description": "The build's output must be checked for content, not merely for being a file. Until the dimension assertion landed the only check on a written icon was its 8-byte PNG signature, which a zero-key build or a blank raster passes. This flag is enforcing only because that assertion now exists; it would have been a declaration naming a non-existent gate before it."
+    },
+    {
+      "name": "contrast_aa",
+      "kind": "gate",
+      "category": "quality",
+      "binding": "compile",
+      "effect": "toggle",
+      "default": "off",
+      "rule": "contrast-aa",
+      "output_target": "raster-export",
+      "exceptions": [
+        {
+          "scope": "every rendered key: the label capsule (rgba(5, 11, 19, 0.82) over the key gradient, #f5f7fb text) and the accent frame / glow / dot drawn in the key's accent",
+          "reason": "There is no contrast check in this repo at all. Accents are not authored here — they arrive from an external registry snapshot (presets/deck/derived.json) and are asserted only to EXIST in the merged palette, never to clear a legibility floor against the fixed dark capsule and frame they are drawn on. Declaring this enforcing would name a gate that does not exist, so it is recorded as known debt: the floor needs a luminance computation over the merged palette, which is a change to the config pipeline rather than to the render.",
+          "added": "2026-10-16"
+        }
+      ],
+      "description": "Legibility floor for label text and accent chrome against the key's dark background. NOT enforced today — declared so the gap is visible and attributable rather than assumed covered. The compiler validates that an accent resolves and that its name exists in the palette; it computes nothing about how the resulting colour reads."
+    }
+  ]
+}

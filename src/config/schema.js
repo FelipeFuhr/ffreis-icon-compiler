@@ -15,6 +15,20 @@ const paletteEntrySchema = {
   },
 };
 
+/**
+ * Declared label typography: ONE family name per entry, most-preferred first
+ * (never a comma-separated stack in a single string — hence no comma in the
+ * pattern). The render verifies every non-system family it is given; see
+ * render/fonts.js for why a declaration is checked and a system stack is not.
+ */
+const fontFamilySchema = {
+  type: 'string',
+  // Letters/digits/space/_/- only: a family name, not a CSS fragment. Keeps a
+  // declared value from escaping the `font-family` rule page-template.js emits.
+  pattern: '^-?[A-Za-z0-9][A-Za-z0-9 _-]*$',
+  maxLength: 64,
+};
+
 /** A theme: palette (named accents) + default output size + rem design base. */
 export const themeSchema = {
   $id: 'theme',
@@ -24,6 +38,14 @@ export const themeSchema = {
   properties: {
     // Output edge length in px (also the rem design unit). Default lives in defaults.js.
     size: { type: 'integer', minimum: 16, maximum: 2048 },
+    // OPTIONAL. Omitting it (or declaring only a system stack) opts out of font
+    // verification deliberately: there is no webfont behind such a family to check.
+    fonts: {
+      type: 'array',
+      items: fontFamilySchema,
+      uniqueItems: true,
+      maxItems: 8,
+    },
     palette: {
       type: 'object',
       minProperties: 1,

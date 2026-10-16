@@ -12,7 +12,8 @@
 //     4. createResolver({ glyphsDir: presetDir/glyphs/ai }).
 //     5. Load templates/deck-key/component.{html,css} once.
 //     6. createRenderer(); per key (optionally filtered by `only`): resolve glyph ->
-//        buildPageHtml -> renderToPng -> write outDir/<id>.png.
+//        buildPageHtml -> renderToPng (which verifies theme.fonts resolved) ->
+//        write outDir/<id>.png.
 //     7. close() the renderer; return the written paths.
 //
 // renderAll() exposes the same pipeline returning in-memory buffers (used by the
@@ -101,7 +102,14 @@ async function renderList(prepared, only) {
     for (const def of keys) {
       const glyphSvg = resolve(def.glyph);
       const html = buildPageHtml({ componentHtml, componentCss, glyphSvg, def, theme });
-      const png = await renderer.renderToPng({ html, size: theme.size, selector: '.deck-key' });
+      const png = await renderer.renderToPng({
+        html,
+        size: theme.size,
+        selector: '.deck-key',
+        // Declared typography is verified in the browser, where "did this family
+        // actually resolve" is the only place the question can be answered.
+        fonts: theme.fonts,
+      });
       results.push({ id: def.id, png });
     }
     return results;
