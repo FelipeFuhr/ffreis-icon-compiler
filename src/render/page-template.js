@@ -13,6 +13,7 @@
 //   The renderer then rasterizes at `deviceScaleFactor = size / DESIGN_PX`, so the
 //   same high-precision layout downscales to exactly size x size device px. Keeping
 //   everything in rem means any output size renders crisp from one source.
+import { fontStack } from './fonts.js';
 
 /**
  * Design edge length in CSS px (the 16rem key lays out at this size). The renderer
@@ -38,12 +39,25 @@ function fill(template, token, value) {
 }
 
 /**
+ * The theme's declared typography, as a stylesheet inlined AFTER the component
+ * so it wins at equal specificity. Empty when the theme declares no `fonts`:
+ * the component's own stack then stands, unchanged. This is what makes a
+ * declaration DO something — without it `fonts` would be an assertion about a
+ * stack nothing applied.
+ */
+function fontLayerCss(fonts) {
+  const stack = fontStack(fonts ?? []);
+  if (stack === '') return '';
+  return `.deck-key, .deck-key__label-text { font-family: ${stack}; }`;
+}
+
+/**
  * @param {object} args
  * @param {string} args.componentHtml - templates/deck-key/component.html (token source)
  * @param {string} args.componentCss  - templates/deck-key/component.css (inlined <style>)
  * @param {string} args.glyphSvg      - inline <svg viewBox="0 0 64 64" fill="currentColor">…
  * @param {{ id: string, label?: string, accent: string, nav?: boolean, doubleBorder?: boolean }} args.def
- * @param {{ palette: Record<string, { hex: string, rgb: string }> }} args.theme
+ * @param {{ palette: Record<string, { hex: string, rgb: string }>, fonts?: string[] }} args.theme
  * @returns {string} standalone HTML document
  */
 export function buildPageHtml({ componentHtml, componentCss, glyphSvg, def, theme }) {
@@ -80,6 +94,9 @@ body {
 .deck-key__icon svg { width: 100%; height: 100%; display: block; }
 `.trim();
 
+  const fontCss = fontLayerCss(theme?.fonts);
+  const fontStyle = fontCss === '' ? '' : `<style>\n${fontCss}\n</style>\n`;
+
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -91,7 +108,7 @@ ${baseCss}
 <style>
 ${componentCss}
 </style>
-</head>
+${fontStyle}</head>
 <body>
 ${component}
 </body>
